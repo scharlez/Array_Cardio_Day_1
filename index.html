@@ -37,31 +37,130 @@
       'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
     ];
 
-    // Array.prototype.filter()
-    // 1. Filter the list of inventors for those who were born in the 1500's
+    // 1a. Array.prototype.filter() - PASSES A FUNCTION AND THAT FUNCTION LOOPS OVER EVERY SINGLE ITEM IN ARRAY AND OUTPUTS a new/shorter array based on function parameters. 
 
-    // Array.prototype.map()
-    // 2. Give us an array of the inventors first and last names
+    // 1b. Filter the list of inventors for those who were born in the 1500's
 
-    // Array.prototype.sort()
-    // 3. Sort the inventors by birthdate, oldest to youngest
+    // __Original Version__
+    // const fifteen = inventors.filter(inventor => {
+    //   if(inventor.year >= 1500 && inventor.year < 1600) {
+    //     return true;
+    //   }
+    // });
 
-    // Array.prototype.reduce()
-    // 4. How many years did all the inventors live all together?
+    //__Refactored Version__
+    //** Loops over array and outputs only inventors between the specified years. 
+
+    const fifteen = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year < 1600));
+
+    console.log(fifteen); 
+
+    // __Output__:
+
+    // 0: {first: 'Galileo', last: 'Galilei', year: 1564, passed: 1642}
+    // 1: {first: 'Johannes', last: 'Kepler', year: 1571, passed: 1630}
+
+    // 2a. Array.prototype.map() - TAKES IN AN ARRAY, DOES SOMETHING WITH ARRAY AND THEN RETURNS NEW ARRAY WITH SAME LENGTH. ("factory" that stamps a product and returns same package - only now with new content)
+
+    // 2b. Give us an array of the inventors first and last names
+
+    //** Calls on original array, maps over it the parameters of only needing first and last name and returns desired outputs. 
+
+    const fullNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+
+    console.log(fullNames);
+
+    // __Output__:
+
+    // ['Albert Einstein', 'Isaac Newton', 'Galileo Galilei', 'Marie Curie', 'Johannes Kepler', 'Nicolaus Copernicus', 'Max Planck', 'Katherine Blodgett', 'Ada Lovelace', 'Sarah E. Goode', 'Lise Meitner', 'Hanna Hammarström']
+
+    // 3a. Array.prototype.sort() - COMPARATIVE FUNCTION IN THAT LOOKS AT ITEMS IN ARRAY AND "SORTS THEM" BASED ON GIVEN PARAMETERS AND RETURNS SAME ARRAY BUT NOW ITS "SORTED" OR ORGANIZED IN A CERTAIN WAY. 
+
+    // 3b. Sort the inventors by birthdate, oldest to youngest
+
+    // ** Call on the array and rearranging based on if/else(params) to output results aka the same array but reorganized
+
+    // __Original Version__
+    // const ordered = inventors.sort(function(a, b) {
+    //   if(a.year > b.year) {
+    //     return 1;
+    //   } else {
+    //     return -1;
+    //   }
+    // });
+
+  // __Refactored Version__
+    const ordered = inventors.sort((a, b) => a.year > b.year ? 1 : -1);
+    console.table(ordered);
+      
+    // 4a. Array.prototype.reduce() - ALLOWS YOU TO BUILD SOMETHING ON EVERY ELEMENT THAT WILL GIVE AN OUTPUT A SINGLE VALUE. 
+
+    // 4b. How many years did all the inventors live all together?
+
+    //**Loop over elements of array and return the number of years the inventor has lived
+
+    const totalYears = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    }, 0);
+
+    console.log(totalYears);
+
+    // __Output__: 861
 
     // 5. Sort the inventors by years lived
+
+    // **Refactored from the start to remove if/else 
+
+    const oldest = inventors.sort(function(a, b) {
+      const lastInventor = a.passed - a.year;
+      const nextInventor = b.passed - b.year;
+
+      return lastInventor > nextInventor ? -1 : 1;
+    });
+    console.table(oldest);
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    // const category = document.querlySelector('.mw-category'); 
+    // // const links = category.querySelectorAll(); 
+    // // ^Refactored from Line 127
+    // const links = Array.from(category.querySelectorAll('a'));
+
+    // // const de = links.map(links => link.textContent)
+    // // ^Refactored from Line 131
+    // const de = links
+    //             .map(links => link.textContent)
+    //             .filter(streetName => streetName.includes('de'));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    
+    const alpha = people.sort((lastOne, nextOne) => {
+      //Takes in the pattern of names and splits it into an ordered list with lastnames first and firstnames following as an output/array. 
+      const [aLast, aFirst] = lastOne.split(', ');
+      const [bLast, bFirst] = nextOne.split(', ');
+      return aLast > bLast ? 1 : -1;
+    });
+    console.log(alpha);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck'];
 
+    //Starts with an empty object then checks to see if there a zero present if not then an entry is made for it and then the rest gets incremented. 
+    const transportation = data.reduce(function(obj, item) {
+      if (!obj[item]) {
+        obj[item] = 0;
+      }
+      obj[item]++;
+      return obj;
+    }, {});
+
+    console.log(transportation); 
+
+    // __Output__: {car: 5, truck: 3, bike: 2, walk: 2, van: 2}
   </script>
 </body>
 
